@@ -1,10 +1,15 @@
 import mongoose from "mongoose";
-import config from "config";
+import config from "config"
+import debug from "debug";
+
+
+const log = debug("app:database")
+
 
 export default async function ConnectToDb() {
   try {
     await mongoose.connect(config.get("database.address"));
-    console.log("App Connected to MongoDB");
+    log("App Connected to DataBase")
   } catch (error) {
     console.error(error);
   }
