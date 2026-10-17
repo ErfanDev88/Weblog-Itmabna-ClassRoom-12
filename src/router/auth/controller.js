@@ -20,12 +20,9 @@ export default new (class {
 
   async verifyOtp(req, res) {
     const { phone, code } = req.body;
-    const exists = await Otp.findOne({ key:phone });
-    console.log(exists)
+    const exists = await Otp.findOne({ key: phone });
     if (!exists) res.status(400).send("Invalid Code!!!");
-    console.log(1)
     await exists.deleteOne();
-    console.log(2)
     const token = await GenerateJwt(phone);
     return res.json({
       msg: "Otp Verified",
