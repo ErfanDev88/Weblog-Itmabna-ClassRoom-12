@@ -12,7 +12,7 @@ export default async function SmsSender(phone, otp) {
     },
     data: {
       mobile: phone,
-      templateId: "341054",
+      templateId: '341054',
       parameters: [{
         name: "CODE",
         value: otp.toString(),
