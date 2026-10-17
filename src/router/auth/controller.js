@@ -2,6 +2,7 @@ import { Otp } from "../../models/otp.js";
 import { User } from "../../models/user.js";
 import generateOtp from "../../utils/generateOtp.js";
 import GenerateJwt from "../../utils/generateJwt.js";
+import SmsSender from "../../utils/smsSender.js";
 
 export default new (class {
   async sendOtp(req, res) {
@@ -11,7 +12,9 @@ export default new (class {
     if (!exists) await User.create({ phone });
 
     const otp = await generateOtp(phone);
-    if (!otp) res.status(401).send("Acces denied , pleas wait!!!");
+    if (!otp) res.status(401).send("Acces denied , please wait!!!");
+    const sms = await SmsSender(phone, otp);
+    console.log(sms);
     return res.json({
       msg: "Otp sent",
       code: otp,
