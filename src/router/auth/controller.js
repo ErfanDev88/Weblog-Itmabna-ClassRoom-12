@@ -14,7 +14,7 @@ export default new (class {
     const otp = await generateOtp(phone);
     if (!otp) res.status(401).send("Acces denied , please wait!!!");
     const sms = await SmsSender(phone, otp);
-    console.log(sms);
+    if(!sms) return res.status(500).send("Internal Server Error.....")
     return res.json({
       msg: "Otp sent",
       code: otp,
@@ -22,6 +22,7 @@ export default new (class {
   }
 
   async verifyOtp(req, res) {
+    console.log(req)
     const { phone, code } = req.body;
     const exists = await Otp.findOne({ key: phone });
     if (!exists) res.status(400).send("Invalid Code!!!");
